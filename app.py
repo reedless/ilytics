@@ -1,9 +1,9 @@
 from flask_cors import CORS
 from flask import Flask, jsonify, request
+from app_helpers import generate_unique_filename, delete_files, create_image_file,\
+    read_and_encode_image, parse_request
 import base64
 import darknet
-import os
-import autocrop
 
 # configuration
 DEBUG = True
@@ -15,26 +15,39 @@ CORS(app)
 stats = []
 
 
-@app.route("/")
-def helloWorld():
-    """
-    Root route
-
-    Returns:
-        String -- Return a valid string
-    """
-    return "Hello, cross-origin-world!"
-
-
 @app.route('/ping', methods=['GET'])
-def pingPong():
+def ping():
     """
-    Ping route for sanity check
+    Ping route for sanity check. Return with status code 200 if the server is up and running.
 
     Returns:
         JSON Dictionary -- Return a valid key value pair
     """
     return jsonify({'data': 'pong!'})
+
+
+@app.route('/invocations', methods=['POST'])
+def invocations():
+    # Get data and parameters
+    result_filepath = "result.jpg"
+
+    valid, data = parse_request(request)
+
+    if not valid:
+        error_code = 400  # Bad Request
+        return data["error"], error_code
+
+    input_file_path = data["filepath"]
+
+    # Run the model
+    stats = darknet.performDetect(imagePath=input_file_path, configPath="./aimodel/Crabbite_V2.cfg",
+                                  weightPath="./aimodel/Crabbite_V2.weights", metaPath="./aimodel/Crabbite_V2.data")
+    result_image_data = read_and_encode_image(result_filepath)
+
+    # Cleanup
+    delete_files(input_file_path, result_filepath)
+
+    return jsonify(img=result_image_data, stat=stats)
 
 
 @app.route('/upload', methods=['POST'])
