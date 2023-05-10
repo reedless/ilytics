@@ -1,2 +1,4 @@
 aimodel
 .venv
+obj
+.vscode
