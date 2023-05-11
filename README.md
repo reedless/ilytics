@@ -130,7 +130,7 @@ If content type is `multipart/form-data`
         }
     }
 
-`img` contains the processed image with boxes around the rotifers
+`img` contains the processed image with boxes around the targets.
 
 # Debug
 
@@ -140,4 +140,13 @@ If the gpu memory is not enough for the application, edit `./aimodel/*.cfg` file
 > `Line 8:` ~~`width=832`~~ -> `width=640`  
 > `Line 9:` ~~`height=832`~~ -> `height=640` 
 
+## `run.sh` not found
+Might be caused by line terminators. Run `file run.sh`.
 
+Correct
+
+    run.sh: Bourne-Again shell script, ASCII text executable
+
+Wrong
+
+    run.sh: Bourne-Again shell script, ASCII text executable, with CRLF line terminators
