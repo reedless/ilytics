@@ -134,6 +134,30 @@ If content type is `multipart/form-data`
 
 ![output image](./data/example_output_img.png)
 
+# Sample code
+
+Sample code can be found in the __tests__ folder
+
+### Sending a ping
+    requests.get("http://0.0.0.0:8080/ping")
+
+### Sending an invocation using `application/json`
+    with open(test_image_location, "rb") as test_img:
+        encoded_data = base64.b64encode(test_img.read())
+        encoded_string = encoded_data.decode("utf-8")
+
+    payload = {"image": encoded_string, "filename": test_image_location}
+
+    response = requests.post(target_url, json=payload)
+
+### Sending an invocation using `multipart/form-data`
+    file = open(test_image_location, "rb")
+    payload = {"image": (test_image_location, file),
+               "filename": (None, test_image_location)}
+
+    response = requests.post(target_url, files=payload)
+
+
 # Debug
 
 ## Cuda out of memory error
