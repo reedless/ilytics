@@ -132,6 +132,8 @@ If content type is `multipart/form-data`
 
 `img` contains the processed image with boxes around the targets.
 
+![output image](./data/example_output_img.png)
+
 # Debug
 
 ## Cuda out of memory error
