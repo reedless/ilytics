@@ -42,7 +42,7 @@ def parse_form_request(request):
     return True,  {"filepath": unique_filename}
 
 
-def parse_request(request):
+def parse_image_data(request):
     if request.content_type.startswith('application/json'):
         return parse_json_request(request)
     if request.content_type.startswith('multipart/form-data'):

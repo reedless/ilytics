@@ -1,7 +1,7 @@
 from flask_cors import CORS
 from flask import Flask, jsonify, request
 from app_helpers import generate_unique_filename, delete_files, create_image_file,\
-    read_and_encode_image, parse_request
+    read_and_encode_image, parse_image_data
 import base64
 import darknet
 
@@ -31,7 +31,7 @@ def invocations():
     # Get data and parameters
     result_filepath = "result.jpg"
 
-    valid, data = parse_request(request)
+    valid, data = parse_image_data(request)
 
     if not valid:
         error_code = 400  # Bad Request
