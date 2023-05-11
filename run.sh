@@ -9,6 +9,6 @@ echo "Getting weights from S3"
 #aws s3 cp s3://sfarotifer/model/crabbiteV2.0.0/CrabbiteV200-01.names  data/obj.names
 
 echo "running gunicorn..."
-gunicorn --bind 0.0.0.0:8888 wsgi:app --timeout 120
+gunicorn --bind 0.0.0.0:8080 wsgi:app --timeout 120
 
 

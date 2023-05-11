@@ -31,7 +31,7 @@ This repo contains the backend(gunicorn, flask, and darknet model) for ilytics.s
  `docker build . --no-cache --tag ilytics_backend_gpu`
 
 6. Run the docker container
- `docker run --gpus=all --name ilytics_backend_gpu_container -itd -p 8888:8888 ilytics_backend_gpu`
+ `docker run --gpus=all --name ilytics_backend_gpu_container -itd -p 8080:8080 ilytics_backend_gpu`
 
 7. Run the following command and ensure that the output is similar to the output below
 ```
@@ -40,7 +40,7 @@ docker logs ilytics_backend_gpu_container
 > `Getting weights from S3`  
 > `running gunicorn...`  
 > `[2021-03-04 03:34:47 +0000] [7] [INFO] Starting gunicorn 20.0.4`  
-> `[2021-03-04 03:34:47 +0000] [7] [INFO] Listening at: http://0.0.0.0:8888 (7)`  
+> `[2021-03-04 03:34:47 +0000] [7] [INFO] Listening at: http://0.0.0.0:8080 (7)`  
 > `[2021-03-04 03:34:47 +0000] [7] [INFO] Using worker: sync`  
 > `[2021-03-04 03:34:47 +0000] [10] [INFO] Booting worker with pid: 10`  
 

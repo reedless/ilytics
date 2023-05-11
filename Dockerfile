@@ -36,7 +36,7 @@ RUN pip3 install -U scikit-image --no-cache-dir
 RUN pip3 install -r requirements.txt --no-cache-dir
 RUN chmod +x run.sh
 
-EXPOSE 8888
+EXPOSE 8080
 
 CMD ["./run.sh"]
 
