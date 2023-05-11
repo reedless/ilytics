@@ -4,7 +4,7 @@ WORKDIR /src
 
 COPY . .
 
-run  make
+RUN  make
 
 FROM nvidia/cuda:10.0-cudnn7-runtime
 
