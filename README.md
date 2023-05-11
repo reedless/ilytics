@@ -102,19 +102,35 @@ If content type is `multipart/form-data`
     -F filename='dog.jpg' \
     -F image=@"20191114_141523.jpg"
 
-# Response
+### Response
+
+| Field name | Field type | Description                            |
+| ---------- | ---------- | -------------------------------------- |
+| `img`      | string     | Contains base64 encoded image content. |
+| `stat`     | JSON       | Contain output from the model          |
+
+
+    HTTP/1.1 200 OK
+    Server: gunicorn
+    Date: Thu, 11 May 2023 03:27:16 GMT
+    Connection: close
+    Content-Type: application/json
+    Content-Length: 988
+    Access-Control-Allow-Origin: *
 
     {
     "img": "/9j/4AAQSkZJRgABAQAAAQABAAD/...", 
     "stat": {
         "": 0, 
-        "Ciliates": 0, 
-        "Clumps": 0, 
+        "Ciliates": 7, 
+        "Clumps": 6, 
         "Dead": 0, 
-        "One-Egg-Carrier": 0, 
-        "Rotifer": 0
+        "One-Egg-Carrier": 62, 
+        "Rotifer": 254
         }
     }
+
+`img` contains the processed image with boxes around the rotifers
 
 # Debug
 
