@@ -10,7 +10,8 @@ def test_json():
         encoded_data = base64.b64encode(test_img.read())
         encoded_string = encoded_data.decode("utf-8")
 
-    payload = {"image": encoded_string, "filename": test_image_location}
+    payload = {"image": encoded_string,
+               "filename": test_image_location, "autocrop": True}
 
     response = requests.post(target_url, json=payload)
 
@@ -22,7 +23,8 @@ def test_multiform():
     # https://requests.readthedocs.io/en/latest/user/quickstart/#post-a-multipart-encoded-file
     file = open(test_image_location, "rb")
     payload = {"image": (test_image_location, file),
-               "filename": (None, test_image_location)}
+               "filename": (None, test_image_location),
+               "autocrop": (None, "true")}
 
     response = requests.post(target_url, files=payload)
 

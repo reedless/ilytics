@@ -51,6 +51,20 @@ def parse_image_data(request):
     return False, {"error": error_messages["wrong_content_type"]}
 
 
+def parse_autocrop(request):
+    isAutocrop = False
+    if request.content_type.startswith('application/json'):
+        data = request.get_json(force=True)
+        if "autocrop" in data:
+            isAutocrop = data["autocrop"]
+
+    if request.content_type.startswith('multipart/form-data'):
+        if "autocrop" in request.form:
+            isAutocrop = True if request.form["autocrop"] == "true" else False
+
+    return isAutocrop
+
+
 def delete_files(*filenames):
     '''
     Returns an array of boolean values. 

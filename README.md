@@ -81,33 +81,38 @@ If content type of HTTP request is `application/json`
 | ---------- | ---------- | -------- | -------------------------------------- |
 | `image`    | string     | required | Contains base64 encoded image content. |
 | `filename` | string     | required |                                        |
+| `autocrop` | bool       | optional |                                        |
 
     curl -i --location --request POST '0.0.0.0:8080/invocations' \
     --header 'Content-Type: application/json' \
     --data-raw '{
         "image": "/9j/4AAQS/...",
-        "filename": "dog.jpg"
+        "filename": "dog.jpg",
+        "autocrop": true
     }'
 
 If content type is `multipart/form-data`
 
-| Field name | Field type | Required | Description                    |
-| ---------- | ---------- | -------- | ------------------------------ |
-| `image`    | string     | required | Contains the raw image content |
+| Field name | Field type | Required | Description                      |
+| ---------- | ---------- | -------- | -------------------------------- |
+| `image`    | string     | required | Contains the raw image content   |
 | `filename` | string     | required |
+| `autocrop` | string     | optional | Use "true" if autocrop is wanted |
 
 
     curl -i --location --request POST '0.0.0.0:8080/invocations' \
     --header 'Content-Type: multipart/form-data' \
     -F filename='dog.jpg' \
-    -F image=@"20191114_141523.jpg"
+    -F image=@"20191114_141523.jpg" \
+    -F autocrop="true"
 
 ### Response
 
-| Field name | Field type | Description                            |
-| ---------- | ---------- | -------------------------------------- |
-| `img`      | string     | Contains base64 encoded image content. |
-| `stat`     | JSON       | Contain output from the model          |
+| Field name           | Field type | Description                                                      |
+| -------------------- | ---------- | ---------------------------------------------------------------- |
+| `img`                | string     | Contains base64 encoded image content.                           |
+| `stat`               | JSON       | Contain output from the model                                    |
+| `autocrop_completed` | string     | "true" or "false". Set to false if autocrop fails for any reason |
 
 
     HTTP/1.1 200 OK
@@ -127,8 +132,9 @@ If content type is `multipart/form-data`
         "One-Egg-Carrier": 62, 
         "Rotifer": 7, 
         "Two-Egg-Carrier": 254
-        }
-    }
+        },
+    "autocrop_completed": "true"
+    },
 
 `img` contains the processed image with boxes around the targets.
 
