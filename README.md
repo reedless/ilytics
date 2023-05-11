@@ -2,7 +2,7 @@
 
 ## Backend
 
-This repo contains the backend(gunicorn, flask, and darknet model) for ilytics.sg 
+This repo contains the backend(gunicorn, flask, and darknet model) for ilytics.sg.
 
 
 ## Run Instruction
@@ -46,7 +46,79 @@ docker logs ilytics_backend_gpu_container
 
 8. Your Backend is up and running!
 
-### Cuda out of memory error
+# Endpoints
+
+## Health check
+
+### Request
+
+`GET /ping/`
+
+    curl -i '0.0.0.0:8080/ping'
+
+### Response
+    HTTP/1.1 200 OK
+    Server: gunicorn
+    Date: Thu, 11 May 2023 02:12:42 GMT
+    Connection: close
+    Content-Type: application/json
+    Content-Length: 22
+    Access-Control-Allow-Origin: *
+
+    {
+    "data": "pong!"
+    }
+
+## Get inference
+
+### Request
+
+`POST /invocations`
+
+If content type of HTTP request is `application/json`
+
+| Field name | Field type | Required | Description                            |
+| ---------- | ---------- | -------- | -------------------------------------- |
+| `image`    | string     | required | Contains base64 encoded image content. |
+| `filename` | string     | required |                                        |
+
+    curl -i --location --request POST '0.0.0.0:8080/invocations' \
+    --header 'Content-Type: application/json' \
+    --data-raw '{
+        "image": "/9j/4AAQS/...",
+        "filename": "dog.jpg"
+    }'
+
+If content type is `multipart/form-data`
+
+| Field name | Field type | Required | Description                    |
+| ---------- | ---------- | -------- | ------------------------------ |
+| `image`    | string     | required | Contains the raw image content |
+| `filename` | string     | required |
+
+
+    curl -i --location --request POST '0.0.0.0:8080/invocations' \
+    --header 'Content-Type: multipart/form-data' \
+    -F filename='dog.jpg' \
+    -F image=@"20191114_141523.jpg"
+
+# Response
+
+    {
+    "img": "/9j/4AAQSkZJRgABAQAAAQABAAD/...", 
+    "stat": {
+        "": 0, 
+        "Ciliates": 0, 
+        "Clumps": 0, 
+        "Dead": 0, 
+        "One-Egg-Carrier": 0, 
+        "Rotifer": 0
+        }
+    }
+
+# Debug
+
+## Cuda out of memory error
 If the gpu memory is not enough for the application, edit `./aimodel/*.cfg` file. Reduce the width and height to a multiple of 64.  
 *Do note that reducing the dimensions will affect the accuracy. If accuracy is priority, use `handover_sfa_cpu branch` instead.*
 > `Line 8:` ~~`width=832`~~ -> `width=640`  
