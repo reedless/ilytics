@@ -121,12 +121,12 @@ If content type is `multipart/form-data`
     {
     "img": "/9j/4AAQSkZJRgABAQAAAQABAAD/...", 
     "stat": {
-        "": 0, 
-        "Ciliates": 7, 
-        "Clumps": 6, 
-        "Dead": 0, 
+        "Ciliates": 0, 
+        "Clump": 0, 
+        "Dead": 6, 
         "One-Egg-Carrier": 62, 
-        "Rotifer": 254
+        "Rotifer": 7, 
+        "Two-Egg-Carrier": 254
         }
     }
 
